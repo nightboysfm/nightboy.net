@@ -1,0 +1,38 @@
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
+<style>
+.ui-overlay-a, .ui-page-theme-a, .ui-page-theme-a .ui-panel-wrapper {
+    background-color: #fff;
+}
+</style>
+
+
+<!--use object-fit:cover or object-fit:contain depeding if you want to scale up or down-->
+<div style="width:100%; text-align: center;">
+  <a href="#popup01" data-rel="popup" data-position-to="window" data-transition="fade"><img class="popphoto" src="https://i.imgur.com/6doNu2m.png" style="width:225px;height:225px;object-fit:cover;"></a>
+  <a href="#popup02" data-rel="popup" data-position-to="window" data-transition="fade"><img class="popphoto" src="https://i.imgur.com/joeQZQB.jpg" style="width:225px;height:225px;object-fit:cover;"></a>
+  <a href="#popup02" data-rel="popup" data-position-to="window" data-transition="fade"><img class="popphoto" src="https://i.imgur.com/joeQZQB.jpg" style="width:225px;height:225px;object-fit:contain;"></a>
+  <a href="#popup03" data-rel="popup" data-position-to="window" data-transition="fade"><img class="popphoto" src="https://i.imgur.com/tZWPCaU.png" style="width:225px;height:225px;object-fit:cover;"></a>
+  <a href="#popup04" data-rel="popup" data-position-to="window" data-transition="fade"><img class="popphoto" src="https://i.imgur.com/9v7jIC6.png" style="width:225px;height:225px;object-fit:cover;"></a>
+  <a href="#popup05" data-rel="popup" data-position-to="window" data-transition="fade"><img class="popphoto" src="https://i.imgur.com/C52crU9.png" style="width:238px;height:238px;object-fit:cover;"></a>
+</div>
+
+<div data-role="popup" id="popup01" data-overlay-theme="b" data-theme="b" data-corners="false">
+    <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a">Close</a><img class="popphoto" src="https://i.imgur.com/6doNu2m.png" style="max-height:900px;max-width:900px">
+</div>
+<div data-role="popup" id="popup02" data-overlay-theme="b" data-theme="b" data-corners="false">
+    <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a">Close</a><img class="popphoto" src="https://i.imgur.com/joeQZQB.jpg" style="max-height:900px;max-width:900px">
+</div>
+<div data-role="popup" id="popup03" data-overlay-theme="b" data-theme="b" data-corners="false">
+    <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a">Close</a><img class="popphoto" src="https://i.imgur.com/tZWPCaU.png" style="max-height:900px;max-width:900px">
+</div>
+<div data-role="popup" id="popup04" data-overlay-theme="b" data-theme="b" data-corners="false">
+    <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a">Close</a><img class="popphoto" src="https://i.imgur.com/9v7jIC6.png" style="max-height:900px;max-width:900px">
+</div>
+<div data-role="popup" id="popup05" data-overlay-theme="b" data-theme="b" data-corners="false">
+    <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a">Close</a><img class="popphoto" src="https://i.imgur.com/C52crU9.png" style="max-height:900px;max-width:900px">
+</div>
