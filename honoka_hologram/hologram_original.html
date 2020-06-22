@@ -1,0 +1,138 @@
+
+<!-- saved from url=(0035)http://wduwant.com/3d/hologram.html -->
+<html><script>(function main() {
+    // Create enabled event
+    function fireEnabledEvent() {
+        // If gli exists, then we are already present and shouldn't do anything
+        if (!window.gli) {
+            setTimeout(function () {
+                var enabledEvent = document.createEvent("Event");
+                enabledEvent.initEvent("WebGLEnabledEvent", true, true);
+                document.dispatchEvent(enabledEvent);
+            }, 0);
+        } else {
+            //console.log("WebGL Inspector already embedded on the page - disabling extension");
+        }
+    };
+
+    // Grab the path root from the extension
+    document.addEventListener("WebGLInspectorReadyEvent", function (e) {
+        var pathElement = document.getElementById("__webglpathroot");
+        if (window["gliloader"]) {
+            gliloader.pathRoot = pathElement.innerText;
+        } else {
+            // TODO: more?
+            window.gliCssUrl = pathElement.innerText + "gli.all.css";
+        }
+    }, false);
+
+    // Rewrite getContext to snoop for webgl
+    var originalGetContext = HTMLCanvasElement.prototype.getContext;
+    if (!HTMLCanvasElement.prototype.getContextRaw) {
+        HTMLCanvasElement.prototype.getContextRaw = originalGetContext;
+    }
+    HTMLCanvasElement.prototype.getContext = function () {
+        var ignoreCanvas = this.internalInspectorSurface;
+        if (ignoreCanvas) {
+            return originalGetContext.apply(this, arguments);
+        }
+
+        var result = originalGetContext.apply(this, arguments);
+        if (result == null) {
+            return null;
+        }
+
+        var contextNames = ["moz-webgl", "webkit-3d", "experimental-webgl", "webgl", "3d"];
+        var requestingWebGL = contextNames.indexOf(arguments[0]) != -1;
+        if (requestingWebGL) {
+            // Page is requesting a WebGL context!
+            fireEnabledEvent(this);
+
+            // If we are injected, inspect this context
+            if (window.gli) {
+                if (gli.host.inspectContext) {
+                    // TODO: pull options from extension
+                    result = gli.host.inspectContext(this, result);
+                    // NOTE: execute in a timeout so that if the dom is not yet
+                    // loaded this won't error out.
+                    window.setTimeout(function() {
+                        var hostUI = new gli.host.HostUI(result);
+                        result.hostUI = hostUI; // just so we can access it later for debugging
+                    }, 0);
+                }
+            }
+        }
+
+        return result;
+    };
+})();</script><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<script src="./hologram_files/pixi.min.js"></script><style type="text/css"></style>
+<style>
+body {
+  margin: 0;
+  padding: 0;
+  
+}
+canvas {
+  width: 100%;
+  height: 100%;
+}
+</style>
+</head>
+<body>
+<script>
+     
+
+ 
+w = 1960, h = 1100;
+var renderer = new PIXI.WebGLRenderer(w, h);
+
+document.body.appendChild(renderer.view);
+
+var stage = new PIXI.Container();
+var container = new PIXI.Container();
+var foreground = new PIXI.Container();
+stage.addChild(container);
+stage.addChild(foreground);
+var bg;
+var f;
+var cat;
+
+
+
+
+
+
+PIXI.loader.add('cat', 'test3d_files/q.jpg').load(function (loader, resources) {
+  cat = new PIXI.Sprite(resources.cat.texture);
+  foreground.addChild(cat);
+});
+
+var mousex = w/2, mousey = h/2;
+PIXI.loader.add('depth', 'test3d_files/qa.jpg').load(function (loader, resources) {
+  d = new PIXI.Sprite(resources.depth.texture);
+  f = new PIXI.filters.DisplacementFilter(d, 10);
+  cat.filters = [f];
+  cat.addChild(d);
+
+  window.onmousemove = function(e) {
+    mousex = e.clientX;
+    mousey = e.clientY;
+  };
+});
+
+
+function animate() {
+
+  f.scale.x = (window.innerWidth/2 - mousex) / 30;
+  f.scale.y = (window.innerHeight/2 - mousey) / 30;
+
+  renderer.render(stage);       
+  requestAnimationFrame(animate);
+}
+
+PIXI.loader.once('complete', animate);
+
+</script><canvas width="1960" height="1100" style="cursor: inherit;"></canvas><canvas style="cursor: inherit;" height="1080" width="1920"></canvas>
+</body></html>
